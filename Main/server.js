@@ -14,17 +14,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // Connect to database
-const db = mysql.createConnection(
-  {
-    host: 'localhost',
-    // MySQL username,
-    user: 'root',
-    // TODO: Add MySQL password here
-    password: '',
-    database: 'movies_db'
-  },
-  console.log(`Connected to the movies_db database.`)
-);
+require("dotenv").config();
+//console.log (process.env.DB_PASSWORD)
+const connection = mysql.createConnection({
+  host: "localhost",
+  port: 3306,
+  user: "root",
+  password: process.env.DB_PASSWORD,
+  database: "employees"
+});
 
 // Create a movie
 app.post('/api/new-movie', ({ body }, res) => {
