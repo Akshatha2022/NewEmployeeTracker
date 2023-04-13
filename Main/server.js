@@ -25,7 +25,8 @@ const connection = mysql.createConnection({
 });
 
 let showroles;
-
+let showdepartments;
+let showemployees;
 
 connection.connect(function (err) {
   if (err) {
@@ -38,6 +39,20 @@ connection.connect(function (err) {
       value: role.id 
     }))
   });
+});
+
+connection.query("SELECT * from department", function (error, res) {
+  showdepartments = res.map(dep => ({ 
+    name: dep.name, 
+    value: dep.id 
+  }))
+});
+
+connection.query("SELECT * from employee", function (error, res) {
+  showemployees = res.map(emp => ({ 
+    name: `${emp.first_name} ${emp.last_name}, 
+    id: ${emp.id}`, value: emp.id 
+  }))
 });
 
 showprompt();
