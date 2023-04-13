@@ -1,11 +1,11 @@
-DROP DATABASE IF EXISTS movies_db;
-CREATE DATABASE movies_db;
+DROP DATABASE IF EXISTS employees_db;
+CREATE DATABASE employees_db;
 
-USE movies_db;
+USE employee_db;
 
-CREATE TABLE movies (
+CREATE TABLE department (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  movie_name VARCHAR(100) NOT NULL
+  employees_name VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE reviews (
