@@ -2,12 +2,12 @@ const express = require('express');
 // Import and require mysql2
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-const cTable = require('console.table');
+//const cTable = require('console.table');
 
-const PORT = process.env.PORT || 3001;
+// const PORT = process.env.PORT || 3001;
 
-const PORT = process.env.PORT || 3001;
-const app = express();
+// const PORT = process.env.PORT || 3001;
+// const app = express();
 
 // Express middleware
 app.use(express.urlencoded({ extended: false }));
@@ -21,16 +21,25 @@ const connection = mysql.createConnection({
   port: 3306,
   user: "root",
   password: process.env.DB_PASSWORD,
-  database: "employees"
+  database: "employee_db"
 });
 
+let showroles;
+
+
 connection.connect(function (err) {
-  if (err) throw err;
-  console.log(`Employee Tracker ${connection.threadId}`);
-  console.log(``);
-  // runs the app
-  userPrompt();
+  if (err) {
+    return;
+  }
+
+  connection.query("SELECT * from role", function (error, res) {
+    showroles = res.map(role => ({ 
+      name: role.title, 
+      value: role.id 
+    }))
+  });
 });
+
 function userPrompt() {
   inquirer
     .prompt({
