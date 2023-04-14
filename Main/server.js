@@ -173,3 +173,48 @@ function menu(option) {
         endMenu();
       })
     };
+
+    function addEmployee() {
+      inquirer
+        .prompt([
+          {
+            type: 'input',
+            message: 'What is employees first name?',
+            name: 'firstName',
+          },
+          {
+            type: 'input',
+            message: 'What is employees last name?',
+            name: 'lastName',
+          },
+          {
+            type: 'list',
+            message:'What is the employees roles?',
+            name: 'roles',
+            choices: showroles
+          },
+          {
+            type: 'list',
+            message: "Who is the employee's manager?",
+            name: "manager",
+            choices: showemployees,
+          },
+        ]).then(function (response) {
+          addEmployee(response)
+        })
+    };
+
+    function addEmployee(data) {
+
+      connection.query("INSERT INTO employee SET ?",
+        {
+          first_name: data.firstName,
+          last_name: data.lastName,
+          role_id: data.title,
+          manager_id: data.manager
+        }, function (error, res) {
+          if (error) throw error;
+        })
+      endMenu();
+    };
+    
