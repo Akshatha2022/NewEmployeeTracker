@@ -57,6 +57,57 @@ connection.query("SELECT * from employee", function (error, res) {
 
 showprompt();
 
+function showprompt() {
+  inquirer
+
+.prompt(
+  {
+    type: "list",
+    message: "Employee Tracking App",
+    name: "choices",
+    choices: [
+      {
+        name: "View all employees",
+        value: "viewEmployees"
+      },
+      {
+        name: "View all departments",
+        value: "viewDepartments"
+      },
+      {
+        name: "View all roles",
+        value: "viewRoles"
+      },
+      {
+        name: "Add employee",
+        value: "addEmployee"
+      },
+      {
+        name: "Delete employee",
+        value: "deleteEmployee"
+      },
+      {
+        name: "Add department",
+        value: "addDept"
+      },
+      {
+        name: "Add role",
+        value: "addRole"
+      },
+      {
+        name: "Update role",
+        value: "updateRole"
+      },
+      {
+        name: "Exit",
+        value: "Exit"
+      }
+    ]
+  }).then(function (res) {
+    menu(res.choices)
+  })
+};
+
 
 function menu(option) {
   switch (option) {
@@ -113,6 +164,7 @@ function menu(option) {
               endMenu();
             })
           };
+
 
                // function to: view all roles
     function viewAllRoles() {
