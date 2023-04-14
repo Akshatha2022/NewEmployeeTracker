@@ -113,3 +113,11 @@ function menu(option) {
               endMenu();
             })
           };
+
+               // function to: view all roles
+    function viewAllRoles() {
+      connection.query("SELECT * from role", function (error, res) {
+        console.table(res);
+        endMenu();
+      })
+    };
