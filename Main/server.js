@@ -2,7 +2,7 @@ const express = require('express');
 // Import and require mysql2
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-//const cTable = require('console.table');
+//cTable = require('console.table');
 
 // const PORT = process.env.PORT || 3001;
 
@@ -10,8 +10,8 @@ const inquirer = require('inquirer');
 // const app = express();
 
 // Express middleware
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
+// app.use(express.json());
 
 // Connect to database
 require("dotenv").config();
@@ -107,3 +107,49 @@ function showprompt() {
     menu(res.choices)
   })
 };
+function menu(option) {
+  switch (option) {
+    case 'viewEmployees':
+      viewAllEmployees();
+      break;
+      case 'viewDepartments':
+        viewAllDepartments();
+        break;
+        case 'viewRoles':
+        viewAllRoles();
+        break;
+        case 'addEmployee':
+        addEmployee();
+        break;
+        case 'deleteEmployee':
+        deleteEmployee();
+        break;
+        case 'addDepartment':
+        addDepartment();
+        break;
+        case 'addRole':
+        addRole();
+        break;
+        case 'updateRole':
+        updateRole();
+        break;
+        case 'quit':
+        quit();
+      }
+    };
+
+
+    // view all employees prompt
+    function viewAllEmployees() {
+      connection.query(`SELECT employee.id, employee.first_name AS 'First Name', 
+      employee.last_name AS 'Last Name', role.title AS Title, department.name AS Department,
+      role.salary AS Salary, CONCAT(manager.first_name, ' ', manager.last_name) AS Manager
+      FROM employee 
+      JOIN role on employee.role_id = role.id
+      JOIN department on role.department_id = department.id
+      LEFT JOIN employee manager on manager.id = employee.manager_id
+      ORDER BY employee.last_name;`, function (error, res) {
+        console.table(res);
+        endMenu();
+      })
+    };
