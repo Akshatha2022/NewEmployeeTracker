@@ -57,56 +57,7 @@ connection.query("SELECT * from employee", function (error, res) {
 
 showprompt();
 
-function showprompt() {
-  inquirer
 
-.prompt(
-  {
-    type: "list",
-    message: "Employee Tracking App",
-    name: "choices",
-    choices: [
-      {
-        name: "View all employees",
-        value: "viewEmployees"
-      },
-      {
-        name: "View all departments",
-        value: "viewDepartments"
-      },
-      {
-        name: "View all roles",
-        value: "viewRoles"
-      },
-      {
-        name: "Add employee",
-        value: "addEmployee"
-      },
-      {
-        name: "Delete employee",
-        value: "deleteEmployee"
-      },
-      {
-        name: "Add department",
-        value: "addDept"
-      },
-      {
-        name: "Add role",
-        value: "addRole"
-      },
-      {
-        name: "Update role",
-        value: "updateRole"
-      },
-      {
-        name: "Exit",
-        value: "Exit"
-      }
-    ]
-  }).then(function (res) {
-    menu(res.choices)
-  })
-};
 function menu(option) {
   switch (option) {
     case 'viewEmployees':
@@ -133,8 +84,8 @@ function menu(option) {
         case 'updateRole':
         updateRole();
         break;
-        case 'quit':
-        quit();
+        case 'exit':
+        exit();
       }
     };
 
@@ -153,3 +104,12 @@ function menu(option) {
         endMenu();
       })
     };
+
+          // function to: view all the departments
+          function viewAllDepartments() {
+            console.log("view all departments")
+            connection.query("SELECT * from department", function (error, res) {
+              console.table(res);
+              endMenu();
+            })
+          };
