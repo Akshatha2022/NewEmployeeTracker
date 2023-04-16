@@ -21,11 +21,11 @@ const connection = mysql.createConnection({
   port: 3306,
   user: "root",
   password: process.env.DB_PASSWORD,
-  database: "employee_db"
+  database: "employees_db"
 });
 
 let showroles;
-let showdepartments;
+// let showdepartments;
 let showemployees;
 
 connection.connect(function (err) {
@@ -41,12 +41,12 @@ connection.connect(function (err) {
   });
 });
 
-connection.query("SELECT * from department", function (error, res) {
-  showdepartments = res.map(dep => ({ 
-    name: dep.name, 
-    value: dep.id 
-  }))
-});
+// connection.query("SELECT * from department", function (error, res) {
+//   showdepartments = res.map(dep => ({ 
+//     name: dep.name, 
+//     value: dep.id 
+//   }))
+// });
 
 connection.query("SELECT * from employee", function (error, res) {
   showemployees = res.map(emp => ({ 
@@ -57,10 +57,13 @@ connection.query("SELECT * from employee", function (error, res) {
 
 showprompt();
 
+
+
+
 function showprompt() {
   inquirer
-
-.prompt(
+  
+  .prompt([
   {
     type: "list",
     message: "Employee Tracking App",
@@ -82,28 +85,30 @@ function showprompt() {
         name: "Add employee",
         value: "addEmployee"
       },
-      {
-        name: "Delete employee",
-        value: "deleteEmployee"
-      },
-      {
-        name: "Add department",
-        value: "addDept"
-      },
-      {
-        name: "Add role",
-        value: "addRole"
-      },
-      {
-        name: "Update role",
-        value: "updateRole"
-      },
+      // {
+      //   name: "Delete employee",
+      //   value: "deleteEmployee"
+      // },
+      // {
+      //   name: "Add department",
+      //   value: "addDept"
+      // },
+      // {
+      //   name: "Add role",
+      //   value: "addRole"
+      // },
+      // {
+      //   name: "Update role",
+      //   value: "updateRole"
+      //},
       {
         name: "Exit",
         value: "Exit"
       }
     ]
-  }).then(function (res) {
+  }
+])
+.then(function (res) {
     menu(res.choices)
   })
 };
@@ -123,18 +128,18 @@ function menu(option) {
         case 'addEmployee':
         addEmployee();
         break;
-        case 'deleteEmployee':
-        deleteEmployee();
-        break;
-        case 'addDepartment':
-        addDepartment();
-        break;
-        case 'addRole':
-        addRole();
-        break;
-        case 'updateRole':
-        updateRole();
-        break;
+        // case 'deleteEmployee':
+        // deleteEmployee();
+        // break;
+        // case 'addDepartment':
+        // addDepartment();
+        // break;
+        // case 'addRole':
+        // addRole();
+        // break;
+        // case 'updateRole':
+        // updateRole();
+        // break;
         case 'exit':
         exit();
       }
@@ -146,7 +151,7 @@ function menu(option) {
       connection.query(`SELECT employee.id, employee.first_name AS 'First Name', 
       employee.last_name AS 'Last Name', role.title AS Title, department.name AS Department,
       role.salary AS Salary, CONCAT(manager.first_name, ' ', manager.last_name) AS Manager
-      FROM employee 
+      FROM employee
       JOIN role on employee.role_id = role.id
       JOIN department on role.department_id = department.id
       LEFT JOIN employee manager on manager.id = employee.manager_id
@@ -212,8 +217,9 @@ function menu(option) {
           last_name: data.lastName,
           role_id: data.title,
           manager_id: data.manager
-        }, function (error, res) {
+        }, function (error) {
           if (error) throw error;
         })
       endMenu();
     };
+return(0);
